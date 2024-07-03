@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script language="JavaScript">
+
+        const source = new EventSource("http://localhost:3000/message");
+
+        source.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            document.getElementById('docentes').textContent = 'Mensaje Docentes';
+            document.getElementById('alumnos').textContent = 'Mensaje Alumnos';
+
+            if (event.type == 'docentes') {
+                var li = document.createElement('li');
+                var tex = document.createTextNode(data.message);
+                li.appendChild(tex);
+                document.getElementById('docentes').appendChild(li);
+
+            } else {
+
+                var li = document.createElement('li');
+                var tex = document.createTextNode(data.message);
+                li.appendChild(tex);
+                document.getElementById('alumnos').appendChild(li);
+            }
+        };
+
+        source.onerror = function () {
+            console.error('Error de conexión SSE');
+        };
+
+    </script>
+</head>
+
+<body>
+    <div style="width: 100%; display: flex;">
+        <div style="width: 100%; display: flex; justify-content: center; font-size: xx-large;">
+            <ul id="docentes">
+                <li>Mensaje Docentes</li>
+            </ul>
+        </div>
+        <div style="width: 100%; display: flex; justify-content: center; font-size: xx-large;">
+            <ul id="alumnos">
+                <li>Mensaje Alumnos</li>
+            </ul>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

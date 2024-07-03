@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Recuperacion</title>
+  <script language="JavaScript">
+
+    function sendData() {
+
+      let options = document.getElementById("options").value;
+      let message = document.getElementById("message").value;
+
+      try {
+        // Envio de mensaje
+        const response = fetch('http://localhost:3000/message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          
+          body: JSON.stringify({
+            options,
+            message
+          })
+        });
+
+        if (!response) {
+          throw new Error('Failed to send message');
+        }
+        alert('Mensaje enviado a: ' + options);
+      } catch (error) {
+        console.error('Error sending message:', error);
+        res.status(500).json({ success: false, error: 'Failed to send message' });
+      }
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <input type="text" name="message" id="message">
+  <div>
+    <select id="options">
+      <option value="0" disabled>Opciones</option>
+      <option value="alumnos">Alumnos</option>
+      <option value="docentes">Docentes</option>
+    </select>
+    <button id="subs" onclick="sendData()">Enviar mensaje</button>
+  </div>
+</body>
+
+</html>
